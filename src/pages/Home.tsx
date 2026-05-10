@@ -14,9 +14,8 @@ import FeaturedSection from "../sections/Featured";
 import FooterSection from "../sections/Footer";
 import HireMeSection from "../sections/HireMe";
 import { fonts } from "../theme/typography";
-import { APPBAR, socials, technologies } from "../utils/constants";
+import { APPBAR, technologies } from "../utils/constants";
 import icons from "../utils/icons";
-import { Link } from "@mui/material";
 
 export default function Home() {
   const [aboutSectionRef, homeSectionRef, portfolioSectionRef, prev] = [
@@ -188,18 +187,6 @@ export default function Home() {
               >
                 Start Tour
               </Typography>
-            </Button>
-            <Button
-              centerRipple
-              LinkComponent={Link}
-              href={socials.endorse.link}
-              sx={({ breakpoints, palette }) => ({
-                [breakpoints.between("sm", "md")]: {
-                  color: palette.primary.main,
-                },
-              })}
-            >
-              Endorse Me
             </Button>
           </Stack>
         </Box>
