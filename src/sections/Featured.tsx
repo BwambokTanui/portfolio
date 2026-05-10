@@ -24,42 +24,45 @@ const ImageThumb = styled("img")(() => ({
   height: "100%",
 }));
 
+const chunkSize = 3;
+const pageGroups: any[][] = [];
+for (let i = 0; i < projectList.length; i += chunkSize) {
+  pageGroups.push(projectList.slice(i, i + chunkSize));
+}
+
 export default function FeaturedSection({
   children,
 }: {
   children?: ReactNode;
 }) {
-  const pdfRef = useRef<HTMLDivElement>(null);
+  const pdfRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [generating, setGenerating] = useState(false);
 
   const handleDownload = useCallback(async () => {
-    if (generating || !pdfRef.current) return;
+    if (generating) return;
     setGenerating(true);
 
     const html2canvas = (await import("html2canvas")).default;
     const { default: jsPDF } = await import("jspdf");
 
-    const canvas = await html2canvas(pdfRef.current, {
-      scale: 2,
-      useCORS: true,
-      logging: false,
-    });
-
-    const imgData = canvas.toDataURL("image/png");
-    const imgWidth = 210;
-    const imgHeight = (canvas.height * imgWidth) / canvas.width;
     const pdf = new jsPDF("p", "mm", "a4");
-    let heightLeft = imgHeight;
-    let position = 0;
+    const pageWidth = 210;
 
-    pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-    heightLeft -= pdf.internal.pageSize.getHeight();
+    for (let i = 0; i < pageGroups.length; i++) {
+      const el = pdfRefs.current[i];
+      if (!el) continue;
 
-    while (heightLeft > 0) {
-      position = heightLeft - imgHeight;
-      pdf.addPage();
-      pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-      heightLeft -= pdf.internal.pageSize.getHeight();
+      const canvas = await html2canvas(el, {
+        scale: 2,
+        useCORS: true,
+        logging: false,
+      });
+
+      const imgData = canvas.toDataURL("image/png");
+      const imgHeight = (canvas.height * pageWidth) / canvas.width;
+
+      if (i > 0) pdf.addPage();
+      pdf.addImage(imgData, "PNG", 0, 0, pageWidth, imgHeight);
     }
 
     pdf.save("Dominic Bwambok - Portfolio.pdf");
@@ -69,7 +72,13 @@ export default function FeaturedSection({
   return (
     <Fragment>
       <Box sx={{ position: "absolute", left: -9999, top: 0 }}>
-        <PortfolioPDF ref={pdfRef} />
+        {pageGroups.map((group, i) => (
+          <PortfolioPDF
+            key={i}
+            ref={(el) => { pdfRefs.current[i] = el; }}
+            projects={group}
+          />
+        ))}
       </Box>
       <Container sx={{ py: 4, overflow: "hidden" }}>
         <Stack direction="row" alignItems="center">
