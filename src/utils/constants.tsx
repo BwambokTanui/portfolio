@@ -60,7 +60,7 @@ export const socials = {
   },
   endorse: {
     icon: icons.endorse,
-    link: "https://www.paypal.com/ncp/payment/6VTFN8PHRB7XJ",
+    link: "https://paypal.me/dominicbwambok",
   },
 } as const;
 
