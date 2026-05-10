@@ -17,7 +17,7 @@ export const aboutDescription = [
 ];
 
 export const email = "tandommy122@gmail.com";
-export const phone = "+254715612073";
+export const phone = "+254798441351";
 export const technologies = [
   "go",
   "django",
