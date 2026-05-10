@@ -24,7 +24,7 @@ const ImageThumb = styled("img")(() => ({
   height: "100%",
 }));
 
-const chunkSize = 3;
+const chunkSize = 2;
 const pageGroups: any[][] = [];
 for (let i = 0; i < projectList.length; i += chunkSize) {
   pageGroups.push(projectList.slice(i, i + chunkSize));
@@ -53,7 +53,7 @@ export default function FeaturedSection({
       if (!el) continue;
 
       const canvas = await html2canvas(el, {
-        scale: 2,
+        scale: 3,
         useCORS: true,
         logging: false,
       });

@@ -61,10 +61,9 @@ const PortfolioPDF = forwardRef<HTMLDivElement, { projects: Project[] }>(
             key={project.key}
             style={{
               display: "flex",
-              alignItems: "center",
-              height: "200px",
-              marginBottom: index < projects.length - 1 ? 20 : 0,
-              paddingBottom: index < projects.length - 1 ? 20 : 0,
+              alignItems: "flex-start",
+              marginBottom: index < projects.length - 1 ? 24 : 0,
+              paddingBottom: index < projects.length - 1 ? 24 : 0,
               borderBottom:
                 index < projects.length - 1 ? "1px solid #E0E0E0" : "none",
             }}
@@ -72,10 +71,8 @@ const PortfolioPDF = forwardRef<HTMLDivElement, { projects: Project[] }>(
             <div
               style={{
                 width: "50%",
-                height: "100%",
                 marginRight: 24,
-                display: "flex",
-                alignItems: "center",
+                flexShrink: 0,
               }}
             >
               <img
@@ -83,10 +80,10 @@ const PortfolioPDF = forwardRef<HTMLDivElement, { projects: Project[] }>(
                 alt={project.name}
                 style={{
                   width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
+                  height: "auto",
                   borderRadius: 8,
                   border: "1px solid #F0F0F0",
+                  display: "block",
                 }}
               />
             </div>
