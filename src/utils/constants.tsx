@@ -56,7 +56,7 @@ export const socials = {
   },
   github: {
     icon: icons.github,
-    link: "https://github.com/TanuiBwambok",
+    link: "https://github.com/BwambokTanui",
   },
   endorse: {
     icon: icons.endorse,
