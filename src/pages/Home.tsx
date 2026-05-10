@@ -14,8 +14,9 @@ import FeaturedSection from "../sections/Featured";
 import FooterSection from "../sections/Footer";
 import HireMeSection from "../sections/HireMe";
 import { fonts } from "../theme/typography";
-import { APPBAR, technologies } from "../utils/constants";
+import { APPBAR, socials, technologies } from "../utils/constants";
 import icons from "../utils/icons";
+import { Link } from "@mui/material";
 
 export default function Home() {
   const [aboutSectionRef, homeSectionRef, portfolioSectionRef, prev] = [
@@ -187,6 +188,12 @@ export default function Home() {
               >
                 Start Tour
               </Typography>
+            </Button>
+            <Button
+              LinkComponent={Link}
+              href={socials.endorse.link}
+            >
+              Tip Me
             </Button>
           </Stack>
         </Box>
