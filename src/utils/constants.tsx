@@ -60,7 +60,7 @@ export const socials = {
   },
   endorse: {
     icon: icons.endorse,
-    link: "https://paypal.me/dominicbwambok",
+    link: "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=dominicbwambok@gmail.com&currency_code=USD",
   },
 } as const;
 
