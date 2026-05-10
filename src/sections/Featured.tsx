@@ -1,7 +1,6 @@
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
-import Link from "@mui/material/Link";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
@@ -13,12 +12,12 @@ import {
   useInView,
   useReducedMotion,
 } from "framer-motion";
-import { Fragment, ReactNode, useEffect, useRef } from "react";
+import { Fragment, ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import { fonts, fontWeights } from "../theme/typography";
 import { projectList } from "../utils/projects";
-import useGlobalContext from "hooks/useGlobalContext";
 import { socials } from "utils/constants";
 import Iconify from "components/Iconify";
+import PortfolioPDF from "components/PortfolioPDF";
 
 const ImageThumb = styled("img")(() => ({
   width: "100%",
@@ -30,10 +29,48 @@ export default function FeaturedSection({
 }: {
   children?: ReactNode;
 }) {
-  const { onPortfolioDownload } = useGlobalContext();
+  const pdfRef = useRef<HTMLDivElement>(null);
+  const [generating, setGenerating] = useState(false);
+
+  const handleDownload = useCallback(async () => {
+    if (generating || !pdfRef.current) return;
+    setGenerating(true);
+
+    const html2canvas = (await import("html2canvas")).default;
+    const { default: jsPDF } = await import("jspdf");
+
+    const canvas = await html2canvas(pdfRef.current, {
+      scale: 2,
+      useCORS: true,
+      logging: false,
+    });
+
+    const imgData = canvas.toDataURL("image/png");
+    const imgWidth = 210;
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+    const pdf = new jsPDF("p", "mm", "a4");
+    let heightLeft = imgHeight;
+    let position = 0;
+
+    pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+    heightLeft -= pdf.internal.pageSize.getHeight();
+
+    while (heightLeft > 0) {
+      position = heightLeft - imgHeight;
+      pdf.addPage();
+      pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+      heightLeft -= pdf.internal.pageSize.getHeight();
+    }
+
+    pdf.save("Dominic Bwambok - Portfolio.pdf");
+    setGenerating(false);
+  }, [generating]);
 
   return (
     <Fragment>
+      <Box sx={{ position: "absolute", left: -9999, top: 0 }}>
+        <PortfolioPDF ref={pdfRef} />
+      </Box>
       <Container sx={{ py: 4, overflow: "hidden" }}>
         <Stack direction="row" alignItems="center">
           <Typography variant="h3" fontFamily={fonts.primary}>
@@ -49,13 +86,9 @@ export default function FeaturedSection({
           <div style={{ flexGrow: 1 }} />
 
           <Button
-            underline="hover"
             color="primary"
-            onClick={onPortfolioDownload}
-            href={socials.portfolio.link}
+            onClick={handleDownload}
             sx={{ cursor: "pointer" }}
-            component={Link}
-            download
             variant="text"
             startIcon={<Iconify icon={socials.portfolio.icon} />}
           >
