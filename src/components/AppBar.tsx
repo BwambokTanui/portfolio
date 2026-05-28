@@ -9,7 +9,6 @@ import { Fragment } from "react";
 
 import { fonts, fontWeights } from "../theme/typography";
 import { pxToRem } from "../utils/getFontValue";
-import DownloadResumeButton from "./DownloadResumeButton";
 
 const AppBar = styled(MuiAppbar)(({ theme: { palette } }) => ({
   backgroundColor: "transparent",
@@ -95,7 +94,6 @@ export default function CustomAppBar({
                 );
               })}
 
-              <DownloadResumeButton />
             </Box>
           </Toolbar>
         </Container>

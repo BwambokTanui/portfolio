@@ -136,16 +136,18 @@ export default function Home() {
         <Box position="absolute" bottom={50} right={0} left={0} paddingLeft={2}>
           <Stack
             direction="row"
-            spacing={2}
+            spacing={{ xs: 0.5, sm: 2 }}
+            flexWrap="wrap"
+            useFlexGap
             justifyContent={{
-              xs: "space-around",
+              xs: "center",
               md: "start",
             }}
           >
             <DownloadResumeButton />
             <Button
               variant="text"
-              sx={{ px: 3 }}
+              sx={{ px: { xs: 1.5, sm: 3 } }}
               onClick={() => {
                 const top =
                   (aboutSectionRef.current?.offsetTop ?? APPBAR.defaultHeight) -

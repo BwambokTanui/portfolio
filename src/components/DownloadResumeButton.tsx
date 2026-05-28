@@ -10,7 +10,7 @@ export default function DownloadResumeButton() {
     <Button
       variant="contained"
       size="small"
-      sx={{ px: 4 }}
+      sx={{ px: { xs: 2, sm: 4 } }}
       disableElevation
       href={socials.resume.link}
       startIcon={<Iconify icon={socials.resume.icon} />}
